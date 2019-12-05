@@ -1,10 +1,10 @@
 'use strict';
 
 const STORE = [
-  {id: cuid(), name: "apples", checked: false},
-  {id: cuid(), name: "oranges", checked: false},
-  {id: cuid(), name: "milk", checked: true},
-  {id: cuid(), name: "bread", checked: false}
+  { id: cuid(), name: "apples", checked: false },
+  { id: cuid(), name: "oranges", checked: false },
+  { id: cuid(), name: "milk", checked: true },
+  { id: cuid(), name: "bread", checked: false }
 ];
 
 
@@ -28,7 +28,7 @@ function generateShoppingItemsString(shoppingList) {
   console.log("Generating shopping list element");
 
   const items = shoppingList.map((item) => generateItemElement(item));
-  
+
   return items.join("");
 }
 
@@ -44,7 +44,7 @@ function renderShoppingList() {
 
 
 function handleNewItemSubmit() {
-  $('#js-shopping-list-form').submit(function(event) {
+  $('#js-shopping-list-form').submit(function (event) {
     event.preventDefault();
     const newItemName = $('.js-shopping-list-entry').val();
     console.log(newItemName);
@@ -64,6 +64,19 @@ function handleDeleteItemClicked() {
   // this function will be responsible for when users want to delete a shopping list
   // item
   console.log('`handleDeleteItemClicked` ran')
+  $('.js-shopping-list').on('click', '.js-item-delete', function (e) {
+    //e.currentTarget = the button they clicked on
+    const foundId = $(e.currentTarget).closest('li').data('item-id');
+    const index = STORE.findIndex(item => {
+      console.log(`item.id: ${item.id}`);
+      console.log(`found id: ${foundId}`);
+      return item.id === foundId;
+    });
+
+    console.log(index);
+    STORE.splice(index, 1);
+    renderShoppingList();
+  });
 }
 
 // this function will be our callback when the page loads. it's responsible for
